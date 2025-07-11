@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>البدري إكسبريس - تسجيل شحنة</title>
+  <style>
+    body {
+      font-family: 'Tahoma', sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #fffde7);
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      text-align: center;
+    }
+    h1 {
+      color: #00838f;
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+    select, input, textarea, button {
+      width: 90%;
+      max-width: 400px;
+      padding: 12px;
+      margin: 10px auto;
+      display: block;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ffca28;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #ffc107;
+    }
+    .toggle-password {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .toggle-password input {
+      flex: 1;
+    }
+    .toggle-password span {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .contact-buttons a {
+      margin: 5px;
+      display: inline-block;
+      color: white;
+      background: #4caf50;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+    .section-title {
+      margin-top: 30px;
+      font-weight: bold;
+      color: #006064;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>البدري إكسبريس</h1>
+
+  <label>اختر الشركة</label>
+  <select id="company">
+    <option disabled selected>اختر الشركة</option>
+    <option>إنيرجي</option>
+    <option>الجوكر</option>
+    <option>الهواري</option>
+    <option>داما</option>
+    <option>الفهد</option>
+  </select>
+
+  <label>اختر المنطقة</label>
+  <select id="area">
+    <option disabled selected>اختر المنطقة</option>
+    <option>سفاجا</option>
+    <option>القصير</option>
+    <option>غارب</option>
+    <option>احياء</option>
+    <option>ابو</option>
+    <option>جبريل</option>
+    <option>كوثر</option>
+    <option>حفر</option>
+    <option>جونة</option>
+    <option>شيري</option>
+    <option>سقالة</option>
+    <option>مدارس</option>
+    <option>ذهب</option>
+    <option>كهف</option>
+    <option>دهار</option>
+    <option>رشاد</option>
+    <option>محمود</option>
+    <option>وليد</option>
+    <option>مكتب</option>
+    <option>سوماباي</option>
+    <option>سهل</option>
+    <option>مكادي</option>
+  </select>
+
+  <button onclick="rememberCompanyArea()">تذكرني</button>
+
+  <label>رمز الدخول</label>
+  <div class="toggle-password">
+    <input type="password" id="passcode" placeholder="رمز الدخول" />
+    <span onclick="togglePass()">👁</span>
+  </div>
+  <button onclick="rememberPasscode()">تذكرني</button>
+
+  <label>رقم الشحنة</label>
+  <input type="text" id="trackingNumber" placeholder="أدخل رقم الشحنة" />
+
+  <button onclick="searchShipment()">بحث</button>
+
+  <div id="shipmentData" style="display: none;">
+    <p class="section-title">بيانات الشحنة:</p>
+    <p><strong>اسم العميل:</strong> <span id="customerName">--</span></p>
+    <p><strong>رقم الهاتف:</strong> 
+      <span id="phone1">--</span> 
+      <a id="call1" href="#" class="contact-buttons">اتصل</a>
+    </p>
+    <p><strong>رقم إضافي:</strong> 
+      <span id="phone2">--</span> 
+      <a id="call2" href="#" class="contact-buttons">اتصل</a>
+    </p>
+    <p><strong>المبلغ المطلوب:</strong> <span id="amount">--</span> جنيه</p>
+  </div>
+
+  <label>موقف الشحنة</label>
+  <select id="status">
+    <option disabled selected>اختر الموقف</option>
+    <option>استلم</option>
+    <option>لا يرد</option>
+    <option>جزئي</option>
+    <option>رفض ورفض</option>
+    <option>رفض ودفع</option>
+    <option>مغلق</option>
+    <option>مسافر</option>
+    <option>تأجيل</option>
+    <option>بعد التنسيق لا يرد</option>
+    <option>بعد التنسيق مغلق</option>
+    <option>تهرب</option>
+    <option>مكرر</option>
+    <option>مش طالب حاجة</option>
+    <option>رقم خاطئ</option>
+    <option>خارج النطاق</option>
+    <option>تغيير عنوان</option>
+    <option>استلم بعلم الشركة</option>
+    <option>عهدة</option>
+    <option>عهدة مكتب</option>
+  </select>
+
+  <label>المبلغ المحصل</label>
+  <input type="number" id="collectedAmount" placeholder="اكتب المبلغ المحصل" />
+
+  <label>ملاحظات</label>
+  <textarea id="notes" rows="3" placeholder="اكتب أي ملاحظات هنا"></textarea>
+
+  <button onclick="submitData()">تسجيل</button>
+
+  <script>
+    const validPasscodes = {
+      "إنيرجي": {
+        "سفاجا": "e101", "القصير": "e102", "غارب": "e103", "احياء": "e104", "ابو": "e105",
+        "جبريل": "e106", "كوثر": "e107", "حفر": "e108", "جونة": "e109", "شيري": "e110",
+        "سقالة": "e111", "مدارس": "e112", "ذهب": "e113", "كهف": "e114", "دهار": "e115",
+        "رشاد": "e116", "محمود": "e117", "وليد": "e118", "مكتب": "e119", "سوماباي": "e120",
+        "سهل": "e121", "مكادي": "e122"
+      },
+      "الجوكر": {
+        "سفاجا": "j101", "القصير": "j102", "غارب": "j103", "احياء": "j104", "ابو": "j105",
+        "جبريل": "j106", "كوثر": "j107", "حفر": "j108", "جونة": "j109", "شيري": "j110",
+        "سقالة": "j111", "مدارس": "j112", "ذهب": "j113", "كهف": "j114", "دهار": "j115",
+        "رشاد": "j116", "محمود": "j117", "وليد": "j118", "مكتب": "j119", "سوماباي": "j120",
+        "سهل": "j121", "مكادي": "j122"
+      },
+      "الهواري": {
+        "سفاجا": "h101", "القصير": "h102", "غارب": "h103", "احياء": "h104", "ابو": "h105",
+        "جبريل": "h106", "كوثر": "h107", "حفر": "h108", "جونة": "h109", "شيري": "h110",
+        "سقالة": "h111", "مدارس": "h112", "ذهب": "h113", "كهف": "h114", "دهار": "h115",
+        "رشاد": "h116", "محمود": "h117", "وليد": "h118", "مكتب": "h119", "سوماباي": "h120",
+        "سهل": "h121", "مكادي": "h122"
+      },
+      "داما": {
+        "سفاجا": "d101", "القصير": "d102", "غارب": "d103", "احياء": "d104", "ابو": "d105",
+        "جبريل": "d106", "كوثر": "d107", "حفر": "d108", "جونة": "d109", "شيري": "d110",
+        "سقالة": "d111", "مدارس": "d112", "ذهب": "d113", "كهف": "d114", "دهار": "d115",
+        "رشاد": "d116", "محمود": "d117", "وليد": "d118", "مكتب": "d119", "سوماباي": "d120",
+        "سهل": "d121", "مكادي": "d122"
+      },
+      "الفهد": {
+        "سفاجا": "f101", "القصير": "f102", "غارب": "f103", "احياء": "f104", "ابو": "f105",
+        "جبريل": "f106", "كوثر": "f107", "حفر": "f108", "جونة": "f109", "شيري": "f110",
+        "سقالة": "f111", "مدارس": "f112", "ذهب": "f113", "كهف": "f114", "دهار": "f115",
+        "رشاد": "f116", "محمود": "f117", "وليد": "f118", "مكتب": "f119", "سوماباي": "f120",
+        "سهل": "f121", "مكادي": "f122"
+      }
+    };
+
+    function togglePass() {
+      const input = document.getElementById("passcode");
+      input.type = input.type === "password" ? "text" : "password";
+    }
+
+    function rememberCompanyArea() {
+      localStorage.setItem("company", document.getElementById("company").value);
+      localStorage.setItem("area", document.getElementById("area").value);
+      alert("تم حفظ الشركة والمنطقة!");
+    }
+
+    function rememberPasscode() {
+      localStorage.setItem("passcode", document.getElementById("passcode").value);
+      alert("تم حفظ رمز الدخول!");
+    }
+
+    window.onload = function () {
+      if (localStorage.getItem("company")) {
+        document.getElementById("company").value = localStorage.getItem("company");
+      }
+      if (localStorage.getItem("area")) {
+        document.getElementById("area").value = localStorage.getItem("area");
+      }
+      if (localStorage.getItem("passcode")) {
+        document.getElementById("passcode").value = localStorage.getItem("passcode");
+      }
+    };
+
+    function searchShipment() {
+      const company = document.getElementById("company").value;
+      const area = document.getElementById("area").value;
+      const passcode = document.getElementById("passcode").value;
+
+      if (!company || !area || !passcode) {
+        alert("من فضلك اختر الشركة والمنطقة واكتب رمز الدخول.");
+        return;
+      }
+
+      if (
+        !validPasscodes[company] ||
+        !validPasscodes[company][area] ||
+        passcode !== validPasscodes[company][area]
+      ) {
+        alert("رمز الدخول غير صحيح!");
+        return;
+      }
+
+      document.getElementById("customerName").textContent = "أحمد عبد الله";
+      document.getElementById("phone1").textContent = "01012345678";
+      document.getElementById("call1").href = "tel:01012345678";
+      document.getElementById("phone2").textContent = "01122334455";
+      document.getElementById("call2").href = "tel:01122334455";
+      document.getElementById("amount").textContent = "250";
+      document.getElementById("shipmentData").style.display = "block";
+    }
+
+    function submitData() {
+      alert("تم تسجيل البيانات بنجاح (سيتم ربطه بجوجل شيت لاحقًا)");
+    }
+  </script>
+</body>
+</html>
